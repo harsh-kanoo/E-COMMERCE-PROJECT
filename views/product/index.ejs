@@ -1,0 +1,58 @@
+<%- include('../partials/header') %>
+    <%- include('../partials/navbar') %>
+
+        <%- include('../partials/flash') %>
+
+            <section id="heading">
+                <h4 class="display-4"><i class="fab fa-shopify" style="margin-right: 20px;"></i>Shopping-Cart</h4>
+            </section>
+
+            <div class="row mt-5" style="margin-bottom: 100px;">
+
+                <% for(let item of allProducts){ %>
+
+                    <div class="col-lg-4 product-card">
+                        <div class="card text-center shadow mt-3 mx-auto" style="width: 18rem;">
+                            <img src="<%=item.img%>" class="card-img-top img" alt="...">
+                            <span
+                                class="badge rounded-pill bg-light text-dark w-25 position-absolute translate-middle-y"
+                                style="top:41%;left:5%">
+                                <%=item.avgRating%> &star; | <%=item.reviews.length%>
+                            </span>
+
+                            <div class="card-body">
+                                <h5 class="card-title d-flex justify-content-between align-items-center">
+                                    <span>
+                                        <%= item.name %>
+                                    </span>
+                                    <span class="like-btn" product-id="<%=item._id%>">
+                                        <% if(currentUser && currentUser.wishList.includes(item._id)){ %>
+                                            <i class="fas fa-heart"></i>
+                                            <% } else{ %>
+                                                <i class="far fa-heart"></i>
+                                                <% } %>
+                                    </span>
+                                </h5>
+                                <h6 class="card-title"><span class="fw-lighter fs-6 text-decoration-line-through">Rs.<%=  item.price*2 %></span> Rs.<%=  item.price %> <span class="fw-light fs-6 text-warning">( 50 % OFF )</span> </h6>
+
+                                </h5>
+                                <p class="card-text">
+                                    <%= item.desc.substring(0,20) %>...
+                                </p>
+                                <% if(item.reviews.length){ %>
+                                    <p class="fw-light card-text">
+                                        <%= item.reviews.length %> reviews
+                                    </p>
+                                    <% } else { %>
+                                        <p class="fw-light card-text">No reviews</p>
+                                        <% } %>
+                                            <a href="/products/<%= item._id %>" class="btn btn-primary">View Product</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <% } %>
+            </div>
+
+
+            <%- include('../partials/footer') %>
