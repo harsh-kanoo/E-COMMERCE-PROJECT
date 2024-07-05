@@ -12,12 +12,16 @@ const validateProduct = (req, res, next)=>{
     next()
 }
 
-const validateReview = (req, res, next)=>{
+const validateReview = async (req, res, next)=>{
     const {rating, comment} = req.body;
     const {error} = reviewSchema.validate({rating, comment})
 
     if(error){
-        return res.status(500).render('product/error', {err : error.message})
+        // return res.status(500).render('product/error', {err : error.message})
+        let { id } = req.params
+
+        let foundProduct = await Product.findById(id).populate('reviews');             
+        return res.render('product/show', {foundProduct})
     }
     next()
 }
